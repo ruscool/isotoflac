@@ -6,10 +6,17 @@ import os
 import pathlib
 from pathlib import Path
 
+version = '1.0.1'
+
 
 def createParser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('folder', nargs='?', default='.')
+    parser = argparse.ArgumentParser(
+        prog='isotoflac',
+        description="""Converter from ISO to flac format""",
+        epilog="""(c) 2022 _R_R_ opensource"""
+    )
+    parser.add_argument('-i', default='.', help='Path to folder:', metavar='Path')
+    parser.add_argument('--version', '-V', action='version', help='Number version', version='%(prog)s {}'.format(version))
     return parser
 
 
@@ -20,7 +27,7 @@ def work_convert():
     namespace = parser.parse_args()
     # print(os.listdir(namespace.folder))  # list files in folder
     # print(os.getcwd())
-    path = Path(namespace.folder)
+    path = Path(namespace.i)
     # path = Path(namespace)
     # print(path)
     return path
@@ -112,9 +119,9 @@ if __name__ == '__main__':
 
     path_folder = work_convert()
 
-    iso_file = find_iso(path_folder)
+    # iso_file = find_iso(path_folder)
 
-    if iso_file != 0:
-        convert_to_wav(path_folder, iso_file[0])
-        covert_to_flac(path_folder)
-        delete_file_wav(path_folder)
+    # if iso_file != 0:
+    #     convert_to_wav(path_folder, iso_file[0])
+    # covert_to_flac(path_folder)
+    # delete_file_wav(path_folder)
