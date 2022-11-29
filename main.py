@@ -52,6 +52,7 @@ def find_iso(path_dir):
     if len(iso_files) > 0:
         return iso_files
     else:
+        print(f'Not iso in folder')
         return 0
 
 
@@ -113,6 +114,7 @@ if __name__ == '__main__':
 
     iso_file = find_iso(path_folder)
 
-    convert_to_wav(path_folder, iso_file[0])
-    covert_to_flac(path_folder)
-    delete_file_wav(path_folder)
+    if iso_file != 0:
+        convert_to_wav(path_folder, iso_file[0])
+        covert_to_flac(path_folder)
+        delete_file_wav(path_folder)
