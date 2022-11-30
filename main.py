@@ -1,10 +1,11 @@
 # main
 
-import sys
+# import sys
 import argparse
 import os
-import pathlib
+# import pathlib
 from pathlib import Path
+from typing import Any
 
 version = '1.0.1'
 
@@ -15,8 +16,10 @@ def createParser():
         description="""Converter from ISO to flac format""",
         epilog="""(c) 2022 _R_R_ opensource"""
     )
-    parser.add_argument('-i', default='.', help='Path to folder:', metavar='Path')
-    parser.add_argument('--version', '-V', action='version', help='Number version', version='%(prog)s {}'.format(version))
+    parser.add_argument('-i', default='.',
+                        help='Path to folder:', metavar='Path')
+    parser.add_argument('--version', '-V', action='version',
+                        help='Number version', version='%(prog)s {}'.format(version))
     return parser
 
 
@@ -50,7 +53,7 @@ def zamena(new_file):
     return perebor
 
 
-def find_iso(path_dir):
+def find_iso(path_dir: str) -> Any:
     iso_files = []
     for i in os.listdir(path_dir):
         if i.endswith('iso'):
@@ -115,13 +118,13 @@ def delete_file_wav(path_dir):
 
 
 if __name__ == '__main__':
-    os.chdir('/home/rusdev/Music/Giuliano Carmignola')
+    # os.chdir('/home/rusdev/Music/Giuliano Carmignola')
 
     path_folder = work_convert()
 
-    # iso_file = find_iso(path_folder)
+    iso_file = find_iso(path_folder)
 
-    # if iso_file != 0:
-    #     convert_to_wav(path_folder, iso_file[0])
-    # covert_to_flac(path_folder)
-    # delete_file_wav(path_folder)
+    if iso_file != 0:
+        convert_to_wav(path_folder, iso_file[0])
+    covert_to_flac(path_folder)
+    delete_file_wav(path_folder)
