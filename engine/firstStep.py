@@ -1,7 +1,6 @@
 import os
 from engine.links import sacd
 
-# import links
 path_sacd = f'/home/rusdev'
 
 
