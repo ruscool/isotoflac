@@ -6,7 +6,10 @@ import os
 # import pathlib
 from pathlib import Path
 from typing import Any
-
+from engine.firstStep import finding, path_sacd
+from engine import firstStep
+# import engine.firstStep
+# from engine.links import sacd
 version = '1.0.1'
 
 
@@ -67,12 +70,15 @@ def find_iso(path_dir: str) -> Any:
 
 
 def convert_to_wav(path_dir, iso_file):
-    os.chdir('/home/rusdev/Projects/sacd/')
+    print('[+] Step 1 - Convert to WAV')
+    os.chdir(path_sacd)
     # print(f'folder: {os.getcwd()}')
-    # print(f'path: {path_dir}')
+    print(f'path: {path_dir}')
     convert_file = f'{path_dir}/{iso_file}'
     file = zamena(convert_file)
-    print(f'new path: {file}')
+    os.chdir(f'{path_sacd}/sacd')
+    print(f'{os.getcwd()}')
+    # print(f'odio-sacd -i {file} -r 192000')
     cmd = f'./sacd -i {file} -r 192000'
     os.system(cmd)
     print("Convert to wav finished")
@@ -80,11 +86,12 @@ def convert_to_wav(path_dir, iso_file):
 
 def covert_to_flac(path_dir):
     """Converter to flac"""
+    print('[+] Step 2 - convert to flac')
     files = []
     for i in os.listdir(path_dir):
         if i.endswith('wav'):
             files.append(i)
-    convert_file = f'{path_dir}/{files[0]}'
+    # convert_file = f'{path_dir}/{files[0]}'
     # new_file = convert_file.replace(' ', '\ ')
     os.chdir(path_dir)
     # zamena = [' ', '(', ')', ':', '-', '&']
@@ -103,6 +110,7 @@ def covert_to_flac(path_dir):
 
 def delete_file_wav(path_dir):
     """Delete all files in folder"""
+    print('[+] Step 3 - delete WAV files')
     files = []
     os.chdir(path_dir)
     for i in os.listdir(path_dir):
@@ -118,13 +126,16 @@ def delete_file_wav(path_dir):
 
 
 if __name__ == '__main__':
+    # finding(path_sacd)
+    firstStep.finding(path_sacd)
     # os.chdir('/home/rusdev/Music/Giuliano Carmignola')
 
     path_folder = work_convert()
-
+    print(path_folder)
     iso_file = find_iso(path_folder)
+    print(iso_file)
 
     if iso_file != 0:
         convert_to_wav(path_folder, iso_file[0])
-    covert_to_flac(path_folder)
-    delete_file_wav(path_folder)
+        covert_to_flac(path_folder)
+        delete_file_wav(path_folder)
